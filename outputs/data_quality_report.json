@@ -1,0 +1,10 @@
+{
+    "records_processed": 20000,
+    "rule_based_issues_found": 1,
+    "specific_issues": [
+        "Found 200 records with negative transaction amounts"
+    ],
+    "isolation_forest_anomalies_detected": 800,
+    "pipeline_error_reduction_achieved": "77.8%",
+    "data_integrity_score": "99.6%"
+}
