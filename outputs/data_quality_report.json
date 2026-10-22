@@ -1,10 +1,72 @@
 {
-    "records_processed": 20000,
-    "rule_based_issues_found": 1,
-    "specific_issues": [
-        "Found 200 records with negative transaction amounts"
+  "dataset": {
+    "name": "UCI Online Retail raw file (dataset 352)",
+    "source": "https://archive.ics.uci.edu/dataset/352/online+retail",
+    "license": "CC BY 4.0",
+    "rows": 541909,
+    "note": "Stage 1 uses the file as published, no cleaning first."
+  },
+  "stage1_rule_counts_on_raw_file": {
+    "missing_customer_id": 135080,
+    "cancelled_invoice": 9288,
+    "quantity_non_positive": 10624,
+    "unit_price_zero": 2515,
+    "missing_description": 1454,
+    "exact_duplicate_rows": 5268,
+    "rows_total": 541909,
+    "rows_failing_any_rule": 144025
+  },
+  "stage2_labelled_test": {
+    "clean_lines": 20000,
+    "injected_anomalies": 400,
+    "injected_types": {
+      "negative_quantity": 100,
+      "extreme_amount": 150,
+      "high_qty_tiny_price": 150
+    },
+    "features": [
+      "Quantity",
+      "UnitPrice",
+      "line_total"
     ],
-    "isolation_forest_anomalies_detected": 800,
-    "pipeline_error_reduction_achieved": "77.8%",
-    "data_integrity_score": "99.6%"
+    "forest": "IsolationForest n_estimators=200, contamination=0.02 fixed before the run, fit on the clean lines only",
+    "rules_only": {
+      "precision": 1.0,
+      "recall": 0.25,
+      "f1": 0.4,
+      "flagged": 100
+    },
+    "isolation_forest_only": {
+      "precision": 0.4177583697234352,
+      "recall": 0.7175,
+      "f1": 0.5280588776448942,
+      "flagged": 687
+    },
+    "rules_plus_forest": {
+      "precision": 0.49174078780177893,
+      "recall": 0.9675,
+      "f1": 0.6520640269587195,
+      "flagged": 787
+    },
+    "forest_flag_rate_on_clean_lines": 0.02,
+    "by_type": {
+      "negative_quantity": {
+        "injected": 100,
+        "caught_by_isolation_forest": 0,
+        "caught_by_combined": 100
+      },
+      "extreme_amount": {
+        "injected": 150,
+        "caught_by_isolation_forest": 137,
+        "caught_by_combined": 137
+      },
+      "high_qty_tiny_price": {
+        "injected": 150,
+        "caught_by_isolation_forest": 150,
+        "caught_by_combined": 150
+      }
+    }
+  },
+  "not_claimed": "No production deployment, no pipeline failure reduction, no clean data percentage, no time saving. Those numbers in the old version were hardcoded or computed by a formula that assumed its conclusion.",
+  "runtime_seconds": 52.0
 }
